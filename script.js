@@ -1,107 +1,108 @@
-// Dados extraídos e limpos do seu CSV (Vendas > 2)
 const menuData = {
     "Packs": [
-        { name: "Régua Sagres", price: "8.37", sales: 275, desc: "A escolha perfeita para o grupo.", img: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=500" },
-        { name: "Pack 6 Gins Maracuja", price: "23.56", sales: 34, desc: "Sabor tropical em dose industrial.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" },
-        { name: "Pack 6 Shots da casa", price: "10.78", sales: 55, desc: "O arranque necessário.", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=500" }
+        { name: "Régua Sagres", price: "6.50", desc: "A nossa clássica régua de finos (20cl).", img: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400", popular: true },
+        { name: "Pack 6 Gins Maracuja", price: "35.00", desc: "Gin, maracujá, lima e açúcar em dose de grupo.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400" },
+        { name: "Pack 6 Shots da Casa", price: "10.00", desc: "Vodka com puré de fruta.", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400" },
+        { name: "Régua Heineken", price: "7.50", desc: "5 Heineken de 25cl.", img: "https://images.unsplash.com/photo-1618885472179-5e474019f2a9?w=400" }
     ],
     "Cocktails": [
-        { name: "Gin Lima Maracujá", price: "7.00", sales: 167, desc: "Fresco, cítrico e irresistível.", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500", popular: true },
-        { name: "Mojito", price: "7.00", sales: 55, desc: "Hortelã fresca, lima e rum.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500" },
-        { name: "Moscow Mule", price: "8.00", sales: 27, desc: "Caneca de cobre, alma de gengibre.", img: "https://images.unsplash.com/photo-1513415277900-a62401e19be4?w=500" },
-        { name: "Pornstar Martini", price: "9.00", sales: 37, desc: "Elegância e paixão num copo.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=500" }
+        { name: "Gin Lima Maracujá", price: "7.00", desc: "O favorito: Gin, lima e maracujá fresco.", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400", popular: true },
+        { name: "Mojito", price: "7.00", desc: "Rum, hortelã e frescura máxima.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400" },
+        { name: "Moscow Mule", price: "8.00", desc: "Vodka e a nossa icónica espuma de gengibre.", img: "https://images.unsplash.com/photo-1513415277900-a62401e19be4?w=400" },
+        { name: "Pornstar Martini", price: "7.00", desc: "Vodka, baunilha e maracujá.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=400" },
+        { name: "Espresso Martini", price: "7.00", desc: "Café e Vodka para despertar.", img: "https://images.unsplash.com/photo-1545438102-799c3991ffb2?w=400" },
+        { name: "Gin Tropical", price: "7.00", desc: "Sabor a verão o ano inteiro.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400" }
     ],
-    "Comida": [
-        { name: "Tosta Mista", price: "4.50", sales: 443, desc: "Pão artesanal, queijo derretido e fiambre.", img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", popular: true },
-        { name: "Batatas Grandes", price: "3.50", sales: 108, desc: "Crocantes por fora, macias por dentro.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
-        { name: "4 Mini Pizzas", price: "5.00", sales: 22, desc: "Snack ideal para acompanhar a sua bebida.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" }
+    "Cerveja": [
+        { name: "Fino Sagres", price: "1.50", desc: "O clássico imperdível.", popular: true },
+        { name: "Heineken 50cl", price: "3.50", desc: "Frescura em dose dupla.", popular: false },
+        { name: "Caneca", price: "2.50", desc: "40cl de sabor.", popular: false },
+        { name: "Bandida do Pomar", price: "3.00", desc: "Sidra refrescante.", popular: false },
+        { name: "Guinness", price: "4.50", desc: "Cerveja preta lendária.", popular: false }
     ],
-    "Cervejas": [
-        { name: "Fino", price: "1.80", sales: 3274, desc: "O clássico imperdível.", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500", popular: true },
-        { name: "Heineken 50cl", price: "3.50", sales: 165, desc: "Frescura premium.", img: "https://images.unsplash.com/photo-1618885472179-5e474019f2a9?w=500" }
+    "Cozinha": [
+        { name: "Tosta Mista", price: "4.50", desc: "Pão artesanal, queijo e fiambre.", img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400", popular: true },
+        { name: "Batatas Grandes", price: "3.50", desc: "Porção generosa para partilhar.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400" },
+        { name: "4 Mini Pizzas", price: "5.00", desc: "Snack perfeito para acompanhar um copo.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" },
+        { name: "Nuggets", price: "5.00", desc: "Crocantes e deliciosos.", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=400" }
+    ],
+    "Whiskies/Gins": [
+        { name: "Adamus", price: "10.00", desc: "Gin premium Português." },
+        { name: "Jameson", price: "6.00", desc: "Irish Whiskey clássico." },
+        { name: "Nordés", price: "9.00", desc: "Gin com alma Galega." },
+        { name: "Hendricks", price: "11.00", desc: "Pétalas de rosa e pepino." }
+    ],
+    "Soft Drinks": [
+        { name: "Café", price: "0.80", desc: "O nosso blend forte." },
+        { name: "Coca-Cola", price: "1.80", desc: "33cl." },
+        { name: "Água Luso", price: "1.20", desc: "50cl." },
+        { name: "Pedras Sabores", price: "1.80", desc: "Limão ou frutos vermelhos." }
     ]
 };
 
-const icons = { "Packs": "package", "Cocktails": "glass-water", "Comida": "utensils", "Cervejas": "beer" };
+const nav = document.querySelector('nav');
+const list = document.getElementById('menuList');
 
-function renderStories() {
-    const nav = document.getElementById('storyNav');
-    nav.innerHTML = Object.keys(menuData).map(cat => `
-        <div class="flex flex-col items-center gap-2 cursor-pointer" onclick="filterCategory('${cat}')">
-            <div class="story-circle flex items-center justify-center bg-[#111]" id="story-${cat}">
-                <i data-lucide="${icons[cat] || 'circle'}" class="text-[#c5a059] w-6 h-6"></i>
-            </div>
-            <span class="text-[9px] uppercase tracking-widest opacity-60">${cat}</span>
-        </div>
-    `).join('');
+function init() {
+    renderNav();
+    showCategory("Packs");
     lucide.createIcons();
 }
 
-function renderItems(items) {
-    const grid = document.getElementById('menuGrid');
-    grid.innerHTML = "";
-    
-    items.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = "glass-card relative opacity-0 translate-y-4";
-        card.onclick = () => openModal(item);
-        card.innerHTML = `
-            <div class="h-48 overflow-hidden relative">
-                ${item.popular || item.sales > 150 ? '<span class="popular-badge">MAIS PEDIDO</span>' : ''}
-                <img src="${item.img}" class="w-full h-full object-cover opacity-80" alt="${item.name}">
-            </div>
-            <div class="p-5 flex justify-between items-end">
-                <div>
-                    <h3 class="serif text-xl mb-1">${item.name}</h3>
-                    <p class="text-[10px] opacity-50 uppercase tracking-widest">${item.desc.substring(0, 30)}...</p>
-                </div>
-                <div class="text-[#c5a059] font-bold text-lg">${item.price}€</div>
-            </div>
-        `;
-        grid.appendChild(card);
-        gsap.to(card, { opacity: 1, y: 0, delay: index * 0.1, duration: 0.5 });
-    });
+function renderNav() {
+    nav.innerHTML = Object.keys(menuData).map(cat => `
+        <button onclick="showCategory('${cat}')" class="cat-item py-4 px-4 text-[11px] uppercase tracking-widest whitespace-nowrap opacity-60 transition-all font-semibold">
+            ${cat}
+        </button>
+    `).join('');
 }
 
-function filterCategory(cat) {
-    document.querySelectorAll('.story-circle').forEach(el => el.classList.remove('active-story'));
-    document.getElementById(`story-${cat}`).classList.add('active-story');
-    renderItems(menuData[cat]);
+function showCategory(cat) {
+    document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active-cat', 'opacity-100'));
+    event?.target?.classList.add('active-cat', 'opacity-100');
+    
+    const items = menuData[cat];
+    list.innerHTML = items.map((item, i) => `
+        <div class="menu-item flex items-center gap-4 p-5 animate-in" onclick="openModal('${cat}', ${i})">
+            <img src="${item.img || 'https://via.placeholder.com/150/111/c5a059?text=Cheers'}" class="thumb">
+            <div class="flex-1">
+                <div class="flex justify-between items-baseline">
+                    <h4 class="font-semibold text-sm">${item.name} ${item.popular ? '⭐' : ''}</h4>
+                    <span class="text-[#c5a059] font-bold text-sm">${item.price}€</span>
+                </div>
+                <p class="text-[10px] opacity-40 mt-1 leading-tight">${item.desc}</p>
+            </div>
+        </div>
+    `).join('');
+    
+    gsap.from(".menu-item", { opacity: 0, x: -10, stagger: 0.05, duration: 0.4 });
 }
 
 function quickFilter(type) {
-    if(type === 'fome') renderItems(menuData["Comida"]);
-    else if(type === 'beber') renderItems([...menuData["Cocktails"], ...menuData["Cervejas"]]);
-    else renderItems(Object.values(menuData).flat());
+    if(type === 'fome') showCategory("Cozinha");
+    if(type === 'beber') showCategory("Cocktails");
 }
 
-function openModal(item) {
+function openModal(cat, index) {
+    const item = menuData[cat][index];
     const modal = document.getElementById('modal');
-    const content = document.getElementById('modalContent');
-    content.innerHTML = `
-        <img src="${item.img}" class="w-full h-64 object-cover">
-        <div class="p-8">
-            <h2 class="serif text-3xl mb-2 gold-gradient">${item.name}</h2>
-            <p class="text-sm opacity-70 leading-relaxed mb-6">${item.desc}</p>
-            <div class="flex justify-between items-center border-t border-white/10 pt-6">
-                <span class="text-2xl font-bold">${item.price}€</span>
-                <span class="text-[10px] opacity-30 uppercase tracking-tighter">Cheers Bar & Kitchen</span>
+    document.getElementById('modalContent').innerHTML = `
+        <img src="${item.img || 'https://via.placeholder.com/400/111/c5a059?text=Cheers'}" class="w-full h-64 object-cover">
+        <div class="p-6">
+            <h2 class="serif text-2xl mb-2">${item.name}</h2>
+            <p class="text-xs opacity-60 mb-4">${item.desc}</p>
+            <div class="flex justify-between items-center pt-4 border-t border-white/5">
+                <span class="text-xl font-bold text-[#c5a059]">${item.price}€</span>
+                <a href="https://instagram.com/cheers_o_bar" class="text-[10px] opacity-40 uppercase tracking-widest">@cheers_o_bar</a>
             </div>
         </div>
     `;
     modal.style.display = "flex";
-    gsap.from("#modal .glass-card", { scale: 0.8, opacity: 0, duration: 0.3 });
-    lucide.createIcons();
+    gsap.from("#modal > div", { scale: 0.9, opacity: 0, duration: 0.3 });
 }
 
 function closeModal() {
-    gsap.to("#modal .glass-card", { scale: 0.8, opacity: 0, duration: 0.2, onComplete: () => {
-        document.getElementById('modal').style.display = "none";
-    }});
+    document.getElementById('modal').style.display = "none";
 }
 
-// Inicialização
-window.onload = () => {
-    renderStories();
-    quickFilter('all');
-};
+init();
