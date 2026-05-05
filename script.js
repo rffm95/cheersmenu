@@ -1,148 +1,107 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- DATA ---
-    // Adicione os seus produtos aqui. 'type' pode ser 'food' ou 'drink'.
-    const menuItems = [
-        { name: "Tosta Mista", price: "4.50", desc: "O clássico que nunca falha. Pão de forma torrado com queijo e fiambre de qualidade.", type: "food", category: "Comida", img: "https://i.imgur.com/2sX1bYj.jpg", popular: true },
-        { name: "Nuggets", price: "5.00", desc: "Pedaços de frango crocantes, servidos com o nosso molho especial da casa.", type: "food", category: "Comida", img: "https://i.imgur.com/JdM9IeT.jpg", popular: false },
-        { name: "Gin Maracujá", price: "7.00", desc: "O nosso best-seller. Um cocktail tropical e refrescante que o transportará para a praia.", type: "drink", category: "Cocktails", img: "https://i.imgur.com/eNsm4jL.jpg", popular: true },
-        { name: "Moscow Mule", price: "8.00", desc: "Uma explosão de sabor. Vodka, lima fresca e ginger beer picante, servido na caneca de cobre.", type: "drink", category: "Cocktails", img: "https://i.imgur.com/mP7D4gT.jpg", popular: false },
-        { name: "Mojito", price: "7.00", desc: "A combinação perfeita de rum, hortelã fresca, lima e um toque de soda.", type: "drink", category: "Cocktails", img: "https://i.imgur.com/9C0dGLm.jpg", popular: false },
-        { name: "Régua 5 Finos Sagres", price: "6.50", desc: "A forma ideal de partilhar uma rodada de cerveja com os seus amigos.", type: "drink", category: "Packs", img: "https://i.imgur.com/bW3Y4XQ.jpg", popular: true },
-        { name: "Pack 6 Shots", price: "10.00", desc: "Comece a festa com 6 shots da casa à sua escolha: maracujá ou morango.", type: "drink", category: "Packs", img: "https://i.imgur.com/QhFylz7.jpg", popular: false },
-        { name: "Heineken 50cl", price: "3.50", desc: "Uma caneca de 50cl da sua cerveja premium favorita, servida bem gelada.", type: "drink", category: "Cervejas", img: "https://i.imgur.com/0oZtP3g.jpg", popular: false },
-        { name: "Guinness", price: "4.50", desc: "A icónica cerveja preta irlandesa, com o seu sabor rico e espuma cremosa.", type: "drink", category: "Cervejas", img: "https://i.imgur.com/fJqf5dO.jpg", popular: false }
-    ];
+// Dados extraídos e limpos do seu CSV (Vendas > 2)
+const menuData = {
+    "Packs": [
+        { name: "Régua Sagres", price: "8.37", sales: 275, desc: "A escolha perfeita para o grupo.", img: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=500" },
+        { name: "Pack 6 Gins Maracuja", price: "23.56", sales: 34, desc: "Sabor tropical em dose industrial.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" },
+        { name: "Pack 6 Shots da casa", price: "10.78", sales: 55, desc: "O arranque necessário.", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=500" }
+    ],
+    "Cocktails": [
+        { name: "Gin Lima Maracujá", price: "7.00", sales: 167, desc: "Fresco, cítrico e irresistível.", img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500", popular: true },
+        { name: "Mojito", price: "7.00", sales: 55, desc: "Hortelã fresca, lima e rum.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500" },
+        { name: "Moscow Mule", price: "8.00", sales: 27, desc: "Caneca de cobre, alma de gengibre.", img: "https://images.unsplash.com/photo-1513415277900-a62401e19be4?w=500" },
+        { name: "Pornstar Martini", price: "9.00", sales: 37, desc: "Elegância e paixão num copo.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=500" }
+    ],
+    "Comida": [
+        { name: "Tosta Mista", price: "4.50", sales: 443, desc: "Pão artesanal, queijo derretido e fiambre.", img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", popular: true },
+        { name: "Batatas Grandes", price: "3.50", sales: 108, desc: "Crocantes por fora, macias por dentro.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
+        { name: "4 Mini Pizzas", price: "5.00", sales: 22, desc: "Snack ideal para acompanhar a sua bebida.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" }
+    ],
+    "Cervejas": [
+        { name: "Fino", price: "1.80", sales: 3274, desc: "O clássico imperdível.", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500", popular: true },
+        { name: "Heineken 50cl", price: "3.50", sales: 165, desc: "Frescura premium.", img: "https://images.unsplash.com/photo-1618885472179-5e474019f2a9?w=500" }
+    ]
+};
 
-    const categories = {
-        "Comida": { icon: "utensils-crossed", type: "food" },
-        "Cocktails": { icon: "martini", type: "drink" },
-        "Packs": { icon: "package", type: "drink" },
-        "Cervejas": { icon: "beer", type: "drink" }
-    };
+const icons = { "Packs": "package", "Cocktails": "glass-water", "Comida": "utensils", "Cervejas": "beer" };
 
-    // --- DOM ELEMENTS ---
-    const grid = document.getElementById('menu-grid');
-    const catNav = document.getElementById('category-nav');
-    const detailPanel = document.getElementById('detailPanel');
-    const panelBackdrop = document.getElementById('panelBackdrop');
-    const closePanelBtn = document.getElementById('closePanelBtn');
+function renderStories() {
+    const nav = document.getElementById('storyNav');
+    nav.innerHTML = Object.keys(menuData).map(cat => `
+        <div class="flex flex-col items-center gap-2 cursor-pointer" onclick="filterCategory('${cat}')">
+            <div class="story-circle flex items-center justify-center bg-[#111]" id="story-${cat}">
+                <i data-lucide="${icons[cat] || 'circle'}" class="text-[#c5a059] w-6 h-6"></i>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest opacity-60">${cat}</span>
+        </div>
+    `).join('');
+    lucide.createIcons();
+}
+
+function renderItems(items) {
+    const grid = document.getElementById('menuGrid');
+    grid.innerHTML = "";
     
-    // Filter Buttons
-    const filterButtons = {
-        all: document.getElementById('filter-all'),
-        food: document.getElementById('filter-food'),
-        drinks: document.getElementById('filter-drinks')
-    };
-    
-    let currentFilter = 'all';
-    let currentCategory = 'all';
-
-    // --- RENDER FUNCTIONS ---
-    const renderItems = () => {
-        const itemsToRender = menuItems.filter(item => {
-            const filterMatch = currentFilter === 'all' || (currentFilter === 'food' && item.type === 'food') || (currentFilter === 'drinks' && item.type === 'drink');
-            const categoryMatch = currentCategory === 'all' || item.category === currentCategory;
-            return filterMatch && categoryMatch;
-        });
-
-        gsap.to(grid.children, {
-            opacity: 0, scale: 0.9, duration: 0.2, stagger: 0.05,
-            onComplete: () => {
-                grid.innerHTML = '';
-                itemsToRender.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = `bg-[var(--card-bg)] rounded-2xl p-3 border border-transparent transition-all duration-300 ${item.popular ? 'popular-card' : ''}`;
-                    card.innerHTML = `
-                        <div class="h-36 rounded-lg overflow-hidden mb-3">
-                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-semibold text-sm truncate">${item.name}</h3>
-                        <p class="gold-text font-bold text-xs">${item.price}€</p>
-                    `;
-                    card.onclick = () => showDetail(item);
-                    grid.appendChild(card);
-                });
-                gsap.from(grid.children, { opacity: 0, scale: 0.9, duration: 0.3, stagger: 0.05, delay: 0.1 });
-            }
-        });
-    };
-
-    const renderCategories = () => {
-        catNav.innerHTML = '';
-        Object.keys(categories).forEach(cat => {
-            if (currentFilter === 'all' || categories[cat].type === currentFilter || (currentFilter === 'drinks' && categories[cat].type === 'drink')) {
-                const iconContainer = document.createElement('div');
-                iconContainer.className = 'text-center flex-shrink-0';
-                iconContainer.innerHTML = `
-                    <button data-category="${cat}" class="category-btn w-16 h-16 rounded-full flex items-center justify-center bg-[#222] category-icon">
-                        <i data-lucide="${categories[cat].icon}" class="w-6 h-6 opacity-70"></i>
-                    </button>
-                    <p class="text-[10px] mt-2 uppercase tracking-wider">${cat}</p>
-                `;
-                catNav.appendChild(iconContainer);
-            }
-        });
-        lucide.createIcons();
-        updateActiveCategory();
-    };
-
-    // --- DETAIL PANEL FUNCTIONS ---
-    const showDetail = (item) => {
-        document.getElementById('detail-img').src = item.img;
-        document.getElementById('detail-name').textContent = item.name;
-        document.getElementById('detail-price').textContent = `${item.price}€`;
-        document.getElementById('detail-desc').textContent = item.desc;
-
-        detailPanel.style.display = 'block';
-        panelBackdrop.style.display = 'block';
-
-        gsap.to(panelBackdrop, { opacity: 1, duration: 0.4 });
-        gsap.to(detailPanel, { x: '0%', duration: 0.5, ease: 'power3.out' });
-    };
-
-    const hideDetail = () => {
-        gsap.to(panelBackdrop, { opacity: 0, duration: 0.4, onComplete: () => panelBackdrop.style.display = 'none' });
-        gsap.to(detailPanel, { x: '100%', duration: 0.5, ease: 'power3.in', onComplete: () => detailPanel.style.display = 'none' });
-    };
-
-    // --- STATE MANAGEMENT & EVENT LISTENERS ---
-    const updateActiveFilter = () => {
-        Object.values(filterButtons).forEach(btn => btn.classList.remove('active-filter'));
-        filterButtons[currentFilter].classList.add('active-filter');
-    };
-    
-    const updateActiveCategory = () => {
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.classList.remove('active-category', 'bg-gradient-to-br', 'from-yellow-400', 'to-orange-500');
-            if (btn.dataset.category === currentCategory) {
-                btn.classList.add('active-category');
-            }
-        });
-    };
-
-    filterButtons.all.addEventListener('click', () => { currentFilter = 'all'; currentCategory = 'all'; renderCategories(); renderItems(); updateActiveFilter(); });
-    filterButtons.food.addEventListener('click', () => { currentFilter = 'food'; currentCategory = 'Comida'; renderCategories(); renderItems(); updateActiveFilter(); });
-    filterButtons.drinks.addEventListener('click', () => { currentFilter = 'drinks'; currentCategory = 'all'; renderCategories(); renderItems(); updateActiveFilter(); });
-    
-    catNav.addEventListener('click', (e) => {
-        const btn = e.target.closest('.category-btn');
-        if (btn) {
-            currentCategory = btn.dataset.category;
-            renderItems();
-            updateActiveCategory();
-        }
+    items.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = "glass-card relative opacity-0 translate-y-4";
+        card.onclick = () => openModal(item);
+        card.innerHTML = `
+            <div class="h-48 overflow-hidden relative">
+                ${item.popular || item.sales > 150 ? '<span class="popular-badge">MAIS PEDIDO</span>' : ''}
+                <img src="${item.img}" class="w-full h-full object-cover opacity-80" alt="${item.name}">
+            </div>
+            <div class="p-5 flex justify-between items-end">
+                <div>
+                    <h3 class="serif text-xl mb-1">${item.name}</h3>
+                    <p class="text-[10px] opacity-50 uppercase tracking-widest">${item.desc.substring(0, 30)}...</p>
+                </div>
+                <div class="text-[#c5a059] font-bold text-lg">${item.price}€</div>
+            </div>
+        `;
+        grid.appendChild(card);
+        gsap.to(card, { opacity: 1, y: 0, delay: index * 0.1, duration: 0.5 });
     });
+}
 
-    closePanelBtn.addEventListener('click', hideDetail);
-    panelBackdrop.addEventListener('click', hideDetail);
+function filterCategory(cat) {
+    document.querySelectorAll('.story-circle').forEach(el => el.classList.remove('active-story'));
+    document.getElementById(`story-${cat}`).classList.add('active-story');
+    renderItems(menuData[cat]);
+}
 
-    // --- INITIALIZATION ---
-    const init = () => {
-        updateActiveFilter();
-        renderCategories();
-        renderItems();
-        lucide.createIcons();
-    };
+function quickFilter(type) {
+    if(type === 'fome') renderItems(menuData["Comida"]);
+    else if(type === 'beber') renderItems([...menuData["Cocktails"], ...menuData["Cervejas"]]);
+    else renderItems(Object.values(menuData).flat());
+}
 
-    init();
-});
+function openModal(item) {
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modalContent');
+    content.innerHTML = `
+        <img src="${item.img}" class="w-full h-64 object-cover">
+        <div class="p-8">
+            <h2 class="serif text-3xl mb-2 gold-gradient">${item.name}</h2>
+            <p class="text-sm opacity-70 leading-relaxed mb-6">${item.desc}</p>
+            <div class="flex justify-between items-center border-t border-white/10 pt-6">
+                <span class="text-2xl font-bold">${item.price}€</span>
+                <span class="text-[10px] opacity-30 uppercase tracking-tighter">Cheers Bar & Kitchen</span>
+            </div>
+        </div>
+    `;
+    modal.style.display = "flex";
+    gsap.from("#modal .glass-card", { scale: 0.8, opacity: 0, duration: 0.3 });
+    lucide.createIcons();
+}
+
+function closeModal() {
+    gsap.to("#modal .glass-card", { scale: 0.8, opacity: 0, duration: 0.2, onComplete: () => {
+        document.getElementById('modal').style.display = "none";
+    }});
+}
+
+// Inicialização
+window.onload = () => {
+    renderStories();
+    quickFilter('all');
+};
