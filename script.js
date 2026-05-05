@@ -1,100 +1,148 @@
-const menuData = {
-    "Cocktails": [
-        { 
-            name: "Gin Maracujá", 
-            price: "7.00", 
-            desc: "Gin premium, polpa de maracujá fresco, sumo de lima.",
-            img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80", // Exemplo de foto
-            popular: true 
-        },
-        { 
-            name: "Moscow Mule", 
-            price: "8.00", 
-            desc: "Vodka, ginger beer artesanal e espuma de gengibre.",
-            img: "https://images.unsplash.com/photo-1513415277900-a62401e19be4?auto=format&fit=crop&w=500&q=80",
-            popular: false
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATA ---
+    // Adicione os seus produtos aqui. 'type' pode ser 'food' ou 'drink'.
+    const menuItems = [
+        { name: "Tosta Mista", price: "4.50", desc: "O clássico que nunca falha. Pão de forma torrado com queijo e fiambre de qualidade.", type: "food", category: "Comida", img: "https://i.imgur.com/2sX1bYj.jpg", popular: true },
+        { name: "Nuggets", price: "5.00", desc: "Pedaços de frango crocantes, servidos com o nosso molho especial da casa.", type: "food", category: "Comida", img: "https://i.imgur.com/JdM9IeT.jpg", popular: false },
+        { name: "Gin Maracujá", price: "7.00", desc: "O nosso best-seller. Um cocktail tropical e refrescante que o transportará para a praia.", type: "drink", category: "Cocktails", img: "https://i.imgur.com/eNsm4jL.jpg", popular: true },
+        { name: "Moscow Mule", price: "8.00", desc: "Uma explosão de sabor. Vodka, lima fresca e ginger beer picante, servido na caneca de cobre.", type: "drink", category: "Cocktails", img: "https://i.imgur.com/mP7D4gT.jpg", popular: false },
+        { name: "Mojito", price: "7.00", desc: "A combinação perfeita de rum, hortelã fresca, lima e um toque de soda.", type: "drink", category: "Cocktails", img: "https://i.imgur.com/9C0dGLm.jpg", popular: false },
+        { name: "Régua 5 Finos Sagres", price: "6.50", desc: "A forma ideal de partilhar uma rodada de cerveja com os seus amigos.", type: "drink", category: "Packs", img: "https://i.imgur.com/bW3Y4XQ.jpg", popular: true },
+        { name: "Pack 6 Shots", price: "10.00", desc: "Comece a festa com 6 shots da casa à sua escolha: maracujá ou morango.", type: "drink", category: "Packs", img: "https://i.imgur.com/QhFylz7.jpg", popular: false },
+        { name: "Heineken 50cl", price: "3.50", desc: "Uma caneca de 50cl da sua cerveja premium favorita, servida bem gelada.", type: "drink", category: "Cervejas", img: "https://i.imgur.com/0oZtP3g.jpg", popular: false },
+        { name: "Guinness", price: "4.50", desc: "A icónica cerveja preta irlandesa, com o seu sabor rico e espuma cremosa.", type: "drink", category: "Cervejas", img: "https://i.imgur.com/fJqf5dO.jpg", popular: false }
+    ];
+
+    const categories = {
+        "Comida": { icon: "utensils-crossed", type: "food" },
+        "Cocktails": { icon: "martini", type: "drink" },
+        "Packs": { icon: "package", type: "drink" },
+        "Cervejas": { icon: "beer", type: "drink" }
+    };
+
+    // --- DOM ELEMENTS ---
+    const grid = document.getElementById('menu-grid');
+    const catNav = document.getElementById('category-nav');
+    const detailPanel = document.getElementById('detailPanel');
+    const panelBackdrop = document.getElementById('panelBackdrop');
+    const closePanelBtn = document.getElementById('closePanelBtn');
+    
+    // Filter Buttons
+    const filterButtons = {
+        all: document.getElementById('filter-all'),
+        food: document.getElementById('filter-food'),
+        drinks: document.getElementById('filter-drinks')
+    };
+    
+    let currentFilter = 'all';
+    let currentCategory = 'all';
+
+    // --- RENDER FUNCTIONS ---
+    const renderItems = () => {
+        const itemsToRender = menuItems.filter(item => {
+            const filterMatch = currentFilter === 'all' || (currentFilter === 'food' && item.type === 'food') || (currentFilter === 'drinks' && item.type === 'drink');
+            const categoryMatch = currentCategory === 'all' || item.category === currentCategory;
+            return filterMatch && categoryMatch;
+        });
+
+        gsap.to(grid.children, {
+            opacity: 0, scale: 0.9, duration: 0.2, stagger: 0.05,
+            onComplete: () => {
+                grid.innerHTML = '';
+                itemsToRender.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = `bg-[var(--card-bg)] rounded-2xl p-3 border border-transparent transition-all duration-300 ${item.popular ? 'popular-card' : ''}`;
+                    card.innerHTML = `
+                        <div class="h-36 rounded-lg overflow-hidden mb-3">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-semibold text-sm truncate">${item.name}</h3>
+                        <p class="gold-text font-bold text-xs">${item.price}€</p>
+                    `;
+                    card.onclick = () => showDetail(item);
+                    grid.appendChild(card);
+                });
+                gsap.from(grid.children, { opacity: 0, scale: 0.9, duration: 0.3, stagger: 0.05, delay: 0.1 });
+            }
+        });
+    };
+
+    const renderCategories = () => {
+        catNav.innerHTML = '';
+        Object.keys(categories).forEach(cat => {
+            if (currentFilter === 'all' || categories[cat].type === currentFilter || (currentFilter === 'drinks' && categories[cat].type === 'drink')) {
+                const iconContainer = document.createElement('div');
+                iconContainer.className = 'text-center flex-shrink-0';
+                iconContainer.innerHTML = `
+                    <button data-category="${cat}" class="category-btn w-16 h-16 rounded-full flex items-center justify-center bg-[#222] category-icon">
+                        <i data-lucide="${categories[cat].icon}" class="w-6 h-6 opacity-70"></i>
+                    </button>
+                    <p class="text-[10px] mt-2 uppercase tracking-wider">${cat}</p>
+                `;
+                catNav.appendChild(iconContainer);
+            }
+        });
+        lucide.createIcons();
+        updateActiveCategory();
+    };
+
+    // --- DETAIL PANEL FUNCTIONS ---
+    const showDetail = (item) => {
+        document.getElementById('detail-img').src = item.img;
+        document.getElementById('detail-name').textContent = item.name;
+        document.getElementById('detail-price').textContent = `${item.price}€`;
+        document.getElementById('detail-desc').textContent = item.desc;
+
+        detailPanel.style.display = 'block';
+        panelBackdrop.style.display = 'block';
+
+        gsap.to(panelBackdrop, { opacity: 1, duration: 0.4 });
+        gsap.to(detailPanel, { x: '0%', duration: 0.5, ease: 'power3.out' });
+    };
+
+    const hideDetail = () => {
+        gsap.to(panelBackdrop, { opacity: 0, duration: 0.4, onComplete: () => panelBackdrop.style.display = 'none' });
+        gsap.to(detailPanel, { x: '100%', duration: 0.5, ease: 'power3.in', onComplete: () => detailPanel.style.display = 'none' });
+    };
+
+    // --- STATE MANAGEMENT & EVENT LISTENERS ---
+    const updateActiveFilter = () => {
+        Object.values(filterButtons).forEach(btn => btn.classList.remove('active-filter'));
+        filterButtons[currentFilter].classList.add('active-filter');
+    };
+    
+    const updateActiveCategory = () => {
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active-category', 'bg-gradient-to-br', 'from-yellow-400', 'to-orange-500');
+            if (btn.dataset.category === currentCategory) {
+                btn.classList.add('active-category');
+            }
+        });
+    };
+
+    filterButtons.all.addEventListener('click', () => { currentFilter = 'all'; currentCategory = 'all'; renderCategories(); renderItems(); updateActiveFilter(); });
+    filterButtons.food.addEventListener('click', () => { currentFilter = 'food'; currentCategory = 'Comida'; renderCategories(); renderItems(); updateActiveFilter(); });
+    filterButtons.drinks.addEventListener('click', () => { currentFilter = 'drinks'; currentCategory = 'all'; renderCategories(); renderItems(); updateActiveFilter(); });
+    
+    catNav.addEventListener('click', (e) => {
+        const btn = e.target.closest('.category-btn');
+        if (btn) {
+            currentCategory = btn.dataset.category;
+            renderItems();
+            updateActiveCategory();
         }
-    ],
-    "Comida": [
-        { 
-            name: "Tosta Kebab", 
-            price: "13.50", 
-            desc: "O nosso bestseller. Carne marinada com molho secreto.",
-            img: "https://images.unsplash.com/photo-1561651823-34feb02250e4?auto=format&fit=crop&w=500&q=80",
-            popular: true 
-        },
-        { 
-            name: "Chicken Wings", 
-            price: "6.00", 
-            desc: "Asinhas crocantes com glaze de mel e sriracha.",
-            img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=500&q=80",
-            popular: false
-        }
-    ],
-    "Packs": [
-        { 
-            name: "Régua 5 Finos", 
-            price: "6.50", 
-            desc: "Perfeito para começar a noite com amigos.",
-            img: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=500&q=80",
-            popular: true 
-        }
-    ]
-};
+    });
 
-const grid = document.getElementById('menuGrid');
-const nav = document.getElementById('catNav');
-const highlights = document.getElementById('foodHighlights');
+    closePanelBtn.addEventListener('click', hideDetail);
+    panelBackdrop.addEventListener('click', hideDetail);
 
-function init() {
-    renderHighlights();
-    renderCategories();
-    renderItems("Cocktails"); // Categoria inicial
-}
+    // --- INITIALIZATION ---
+    const init = () => {
+        updateActiveFilter();
+        renderCategories();
+        renderItems();
+        lucide.createIcons();
+    };
 
-function renderHighlights() {
-    const food = menuData["Comida"].filter(i => i.popular);
-    highlights.innerHTML = food.map(item => `
-        <div class="min-w-[280px] glass-card p-3">
-            <div class="img-container mb-3">
-                <span class="badge">Chef's Choice</span>
-                <img src="${item.img}" alt="${item.name}">
-            </div>
-            <div class="flex justify-between items-center">
-                <h4 class="font-semibold text-sm">${item.name}</h4>
-                <span class="text-[#c5a059] text-sm">${item.price}€</span>
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderCategories() {
-    nav.innerHTML = Object.keys(menuData).map(cat => `
-        <button onclick="renderItems('${cat}')" class="category-btn opacity-50 hover:opacity-100 transition-all">${cat}</button>
-    `).join('');
-}
-
-function renderItems(category) {
-    // Animação de saída
-    gsap.to(".item-card", { opacity: 0, y: 20, stagger: 0.05, onComplete: () => {
-        grid.innerHTML = menuData[category].map(item => `
-            <div class="glass-card p-4 item-card opacity-0">
-                <div class="img-container mb-4">
-                    ${item.popular ? '<span class="badge">Popular</span>' : ''}
-                    <img src="${item.img}" alt="${item.name}">
-                </div>
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="serif text-xl">${item.name}</h3>
-                    <span class="text-[#c5a059] font-bold">${item.price}€</span>
-                </div>
-                <p class="text-[11px] opacity-50 leading-relaxed">${item.desc}</p>
-                <button class="mt-4 w-full border border-white/10 py-2 rounded-xl text-[9px] uppercase tracking-widest hover:bg-white/5 transition-all">Ver Detalhes</button>
-            </div>
-        `).join('');
-
-        // Animação de entrada
-        gsap.to(".item-card", { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: "power4.out" });
-    }});
-}
-
-init();
+    init();
+});
