@@ -3,64 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEERS | Premium Menu</title>
+    <title>CHEERS | Luxury Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; }
-        .gold-text { color: #d4af37; }
-        .gold-bg { background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .nav-active { border-bottom: 2px solid #d4af37; color: #d4af37; font-weight: 600; }
+        :root { --gold: #c5a059; --dark: #050505; }
+        body { background-color: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        .serif { font-family: 'Cormorant Garamond', serif; }
+        .gold-gradient { background: linear-gradient(135deg, #c5a059 0%, #f7e0b1 50%, #c5a059 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(197, 160, 89, 0.15); border-radius: 24px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .glass-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .img-container { width: 100%; height: 160px; border-radius: 20px; overflow: hidden; background: #111; position: relative; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .glass-card:hover img { opacity: 1; scale: 1.1; }
+        .badge { background: var(--gold); color: #000; padding: 2px 10px; border-radius: 50px; font-size: 0.6rem; font-weight: 800; text-uppercase; position: absolute; top: 10px; right: 10px; z-index: 10; }
+        /* Esconder scrollbar */
         ::-webkit-scrollbar { display: none; }
-        .item-card:active { transform: scale(0.98); transition: 0.1s; }
     </style>
 </head>
-<body class="pb-20">
+<body>
 
-    <!-- Header -->
-    <header class="p-6 text-center pt-12">
-        <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl tracking-widest uppercase gold-text">Cheers</h1>
-        <p class="text-xs tracking-widest opacity-50 uppercase mt-2">Cocktails & Experiences</p>
+    <!-- Hero Section -->
+    <header class="relative h-[40vh] flex flex-col items-center justify-center text-center p-6 border-b border-white/5">
+        <div class="absolute inset-0 opacity-40" style="background: radial-gradient(circle at center, #c5a05933 0%, transparent 70%);"></div>
+        <h1 class="serif text-6xl gold-gradient tracking-tighter mb-2">Cheers</h1>
+        <p class="uppercase tracking-[0.3em] text-[10px] opacity-60">Premium Bar & Kitchen</p>
     </header>
 
-    <!-- Interactive Search & Lucky -->
-    <div class="px-4 mb-6 flex gap-2">
-        <div class="glass flex-1 rounded-full px-4 py-2 flex items-center gap-2">
-            <i data-lucide="search" class="w-4 h-4 opacity-50"></i>
-            <input type="text" id="searchInput" placeholder="O que deseja beber?" class="bg-transparent border-none outline-none text-sm w-full">
+    <!-- Food Highlight Slider (Para vender mais comida) -->
+    <section class="py-8">
+        <h2 class="px-6 serif text-2xl mb-4">Especialidades da Cozinha</h2>
+        <div class="flex overflow-x-auto gap-4 px-6 pb-4" id="foodHighlights">
+            <!-- Injected by JS -->
         </div>
-        <button onclick="feelingLucky()" class="gold-bg p-3 rounded-full text-black shadow-lg shadow-yellow-900/20">
-            <i data-lucide="sparkles" class="w-5 h-5"></i>
-        </button>
-    </div>
+    </section>
 
-    <!-- Category Navigation -->
-    <nav class="sticky top-0 z-50 glass mb-6 overflow-x-auto whitespace-nowrap px-4 py-3 flex gap-6 text-sm uppercase tracking-tighter" id="catNav">
-        <!-- Categories injected by JS -->
+    <!-- Categories Tab -->
+    <nav class="sticky top-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 py-4 px-4">
+        <div class="flex gap-8 overflow-x-auto whitespace-nowrap justify-center text-[10px] uppercase tracking-widest font-semibold" id="catNav">
+            <!-- Injected by JS -->
+        </div>
     </nav>
 
-    <!-- Menu Items Grid -->
-    <main class="px-4 space-y-8" id="menuContainer">
-        <!-- Items injected by JS -->
+    <!-- Main Menu -->
+    <main class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="menuGrid">
+        <!-- Items Injected by JS -->
     </main>
-
-    <!-- Footer Action -->
-    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <a href="#reservas" class="glass px-8 py-3 rounded-full gold-text border border-yellow-700/30 text-sm font-semibold uppercase tracking-widest flex items-center gap-2">
-            <i data-lucide="calendar" class="w-4 h-4"></i> Reservar Mesa
-        </a>
-    </div>
-
-    <!-- Lucky Modal -->
-    <div id="luckyModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-6 bg-black/90">
-        <div class="glass p-8 rounded-3xl text-center max-w-xs w-full">
-            <h2 class="gold-text text-xl mb-2">A nossa sugestão:</h2>
-            <div id="luckyResult" class="text-3xl font-serif py-6"></div>
-            <button onclick="closeLucky()" class="text-xs uppercase tracking-widest opacity-50 mt-4">Fechar</button>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
