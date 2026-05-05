@@ -2,163 +2,69 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEERS | Gold Experience Menu</title>
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CHEERS | Interactive Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP (Biblioteca de animações ultra-suaves) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Fontes Premium -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #c5a059;
-            --gold-light: #f7e0b1;
-            --dark: #070707;
-            --dark-card: #121212;
-        }
-        body {
-            background-color: var(--dark);
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .serif { font-family: 'Cormorant Garamond', serif; }
-        
-        /* Efeitos Dourados Premium */
-        .gold-gradient {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gold-border-active {
-            border: 2px solid;
-            border-image: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold)) 1;
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.25);
-        }
-        .gold-glow {
-            box-shadow: 0 0 25px rgba(197, 160, 89, 0.15);
-        }
-
-        /* Cartão Glassmorphism Premium */
-        .glass-card {
-            background: linear-gradient(145deg, rgba(25, 25, 25, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .glass-card:active {
-            transform: scale(0.97);
-        }
-
-        /* Best-Seller Card com Animação Dourada */
-        .best-seller-card {
-            background: linear-gradient(145deg, rgba(30, 24, 15, 0.5) 0%, rgba(10, 10, 10, 0.9) 100%);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            box-shadow: 0 4px 20px rgba(197, 160, 89, 0.1);
-        }
-
-        /* Stories-style categories */
-        .story-ring {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            padding: 3px;
-            transition: all 0.3s ease;
-        }
-        .story-active .story-ring {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-            transform: scale(1.05);
-            box-shadow: 0 0 12px rgba(197, 160, 89, 0.4);
-        }
-
-        /* Scrollbars invisíveis */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        :root { --gold: #d4af37; --dark-bg: #111111; --card-bg: #1a1a1a; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--dark-bg); color: #f0f0f0; -webkit-tap-highlight-color: transparent; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .gold-text { color: var(--gold); }
+        .active-filter { background: var(--gold); color: #000; }
+        .category-icon { border: 2px solid #444; transition: border-color 0.3s; }
+        .active-category { border-color: var(--gold); }
+        .popular-card { box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); border-color: rgba(212, 175, 55, 0.4); }
+        #detailPanel, #panelBackdrop { display: none; } /* Hidden by default */
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="pb-24">
+<body class="overflow-x-hidden">
 
-    <!-- Header Elegante -->
-    <header class="relative pt-12 pb-6 flex flex-col items-center justify-center text-center">
-        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background: radial-gradient(circle at center, #c5a05944 0%, transparent 75%);"></div>
-        <h1 class="serif text-5xl tracking-widest gold-gradient uppercase font-bold">Cheers</h1>
-        <p class="uppercase tracking-[0.3em] text-[9px] opacity-40 mt-1">Premium Lounge & Bar</p>
+    <!-- Header -->
+    <header class="p-6 text-center">
+        <h1 class="font-serif text-4xl gold-text tracking-widest">Cheers</h1>
+        <p class="text-xs tracking-widest opacity-50 uppercase mt-1">O seu menu interativo</p>
     </header>
 
-    <!-- 1. Moment Filter (Tenho Fome vs Só Quero Beber) -->
+    <!-- Quick Filters (Fome / Sede) -->
     <div class="px-6 mb-6 flex justify-center">
-        <div class="glass-card p-1 rounded-full flex w-full max-w-sm">
-            <button onclick="toggleMoment('all')" id="moment-all" class="flex-1 py-2 px-3 text-xs uppercase tracking-wider font-semibold rounded-full transition-all text-black bg-white">
-                ✨ Tudo
-            </button>
-            <button onclick="toggleMoment('drink')" id="moment-drink" class="flex-1 py-2 px-3 text-xs uppercase tracking-wider font-semibold rounded-full transition-all opacity-50 hover:opacity-100">
-                🍹 Beber
-            </button>
-            <button onclick="toggleMoment('food')" id="moment-food" class="flex-1 py-2 px-3 text-xs uppercase tracking-wider font-semibold rounded-full transition-all opacity-50 hover:opacity-100">
-                🍔 Comer
-            </button>
+        <div class="bg-[#222] p-1 rounded-full flex text-xs font-semibold">
+            <button id="filter-all" class="px-6 py-2 rounded-full transition-all duration-300">Todos</button>
+            <button id="filter-food" class="px-6 py-2 rounded-full transition-all duration-300">Tenho Fome</button>
+            <button id="filter-drinks" class="px-6 py-2 rounded-full transition-all duration-300">Só Quero Beber</button>
         </div>
     </div>
 
-    <!-- Barra de Pesquisa Avançada -->
-    <div class="px-6 mb-8 flex gap-3 max-w-md mx-auto">
-        <div class="glass-card flex-1 rounded-full px-5 py-3 flex items-center gap-3">
-            <i data-lucide="search" class="w-4 h-4 opacity-40"></i>
-            <input type="text" id="searchInput" placeholder="Procura o teu cocktail ou snack..." class="bg-transparent border-none outline-none text-xs w-full placeholder-white/30 text-white font-medium">
+    <!-- Category Icons (Story Style) -->
+    <nav class="px-6 mb-8">
+        <div id="category-nav" class="flex items-center gap-4 overflow-x-auto pb-3">
+            <!-- Icons injected by JS -->
         </div>
-    </div>
+    </nav>
 
-    <!-- 2. Instagram Stories-style Categories -->
-    <section class="mb-8">
-        <div class="flex overflow-x-auto gap-5 px-6 no-scrollbar pb-2" id="storyNav">
-            <!-- Injetado via Javascript -->
-        </div>
-    </section>
-
-    <!-- Grelha Principal do Menu -->
-    <main class="px-6 max-w-5xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="menuGrid">
-            <!-- Items Injetados via Javascript -->
-        </div>
+    <!-- Menu Grid -->
+    <main id="menu-grid" class="px-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Items injected by JS -->
     </main>
 
-    <!-- 3. Modal de Detalhe Expandido Lateral/Inferior -->
-    <div id="detailModal" class="fixed inset-0 z-50 hidden flex items-end md:items-center justify-center p-0 md:p-6 bg-black/80 backdrop-blur-md">
-        <div id="modalContent" class="glass-card w-full md:max-w-lg rounded-t-[32px] md:rounded-[24px] overflow-hidden max-h-[85vh] md:max-h-[90vh] flex flex-col transform translate-y-full opacity-0">
-            <!-- Topo com Imagem do Item -->
-            <div class="relative h-64 w-full bg-neutral-900 flex-shrink-0">
-                <img id="modalImg" src="" alt="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                <!-- Botão de Fechar -->
-                <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/40 hover:bg-black/60 backdrop-blur-md p-3 rounded-full text-white transition-all">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-                <span id="modalTag" class="absolute bottom-4 left-4 bg-[#c5a059] text-black font-extrabold text-[9px] uppercase tracking-wider px-3 py-1 rounded-full"></span>
+    <!-- Detail Panel (Hidden by default) -->
+    <div id="panelBackdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"></div>
+    <aside id="detailPanel" class="fixed top-0 right-0 h-full w-full max-w-md bg-black border-l border-white/10 z-50 transform translate-x-full">
+        <div class="h-full w-full overflow-y-auto">
+            <img id="detail-img" src="" class="h-80 w-full object-cover" alt="Detalhe do produto">
+            <div class="p-6">
+                <h2 id="detail-name" class="font-serif text-4xl gold-text mb-2"></h2>
+                <span id="detail-price" class="text-2xl font-semibold mb-6 block"></span>
+                <p id="detail-desc" class="text-sm opacity-70 leading-relaxed"></p>
             </div>
-            <!-- Detalhes do Produto -->
-            <div class="p-6 overflow-y-auto">
-                <div class="flex justify-between items-start mb-4">
-                    <h2 id="modalName" class="serif text-3xl font-bold leading-tight"></h2>
-                    <span id="modalPrice" class="text-2xl font-bold text-[#c5a059] ml-4"></span>
-                </div>
-                <p id="modalDesc" class="text-sm opacity-60 leading-relaxed font-light mb-6"></p>
-                <div class="border-t border-white/10 pt-4 flex items-center justify-between">
-                    <span class="text-[10px] uppercase tracking-widest opacity-40">Dica do Staff</span>
-                    <span class="text-xs text-[#c5a059] font-medium flex items-center gap-1">
-                        <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Feito no momento
-                    </span>
-                </div>
-            </div>
+            <button id="closePanelBtn" class="absolute top-4 right-4 bg-black/50 p-2 rounded-full">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
         </div>
-    </div>
-
-    <!-- Rodapé Minimalista -->
-    <footer class="mt-16 text-center opacity-30 text-[9px] uppercase tracking-[0.2em]">
-        <p>Preços com IVA incluído • Cheers © 2026</p>
-    </footer>
+    </aside>
 
     <script src="script.js"></script>
 </body>
