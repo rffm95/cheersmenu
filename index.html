@@ -1,174 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CHEERS | Menu</title>
-    <!-- Bibliotecas Externas -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { --gold: #c5a059; }
-        body { background-color: #050505; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; width: 100vw; overflow-x: hidden; }
-        .serif { font-family: 'Playfair Display', serif; }
-        .gold-text { color: var(--gold); }
-        
-        /* Navegação Horizontal */
-        .cat-bar { scrollbar-width: none; border-bottom: 1px solid rgba(255,255,255,0.1); background: #050505; position: sticky; top: 0; z-index: 50; }
-        .cat-bar::-webkit-scrollbar { display: none; }
-        .active-cat { color: var(--gold); border-bottom: 2px solid var(--gold); opacity: 1 !important; }
-
-        /* Itens */
-        .menu-item { border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 1rem; padding: 1.25rem; transition: background 0.2s; }
-        .menu-item:active { background: rgba(255,255,255,0.08); }
-        .thumb { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; background: #111; flex-shrink: 0; border: 1px solid rgba(197,160,89,0.2); }
-        
-        /* Modal */
-        #modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 1.5rem; }
-        .modal-content { background: #111; width: 100%; max-width: 400px; border-radius: 24px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#050505" />
+  <title>CHEERS | Menu</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-    <!-- Header -->
-    <header class="flex flex-col items-center py-6 px-4 bg-[#050505]">
-        <img src="input_file_5.png" alt="Cheers Logo" class="w-32 mb-2" onerror="this.src='https://via.placeholder.com/150/000/FFF?text=CHEERS'">
-        <p class="text-[9px] uppercase tracking-[0.4em] text-white/40">Since 2014 • O Seu Menu Interativo</p>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-block">
+          <img src="input_file_5.png" alt="Cheers logo" class="brand-logo" onerror="this.src='https://via.placeholder.com/160/111111/c5a059?text=CHEERS'">
+          <div>
+            <p class="eyebrow">Since 2014 • Menu Interativo</p>
+            <h1 class="brand-title serif">Cheers O Bar</h1>
+            <p class="brand-sub">Mais rápido, mais bonito e melhor para iPhone.</p>
+          </div>
+        </div>
+        <a class="ig-link" href="https://instagram.com/cheers_o_bar" target="_blank" rel="noreferrer">
+          <i data-lucide="instagram"></i>
+          <span>Instagram</span>
+        </a>
+      </div>
     </header>
 
-    <!-- Instagram & Quick Links -->
-    <div class="flex border-y border-white/10 bg-white/5 divide-x divide-white/10">
-        <a href="https://instagram.com/cheers_o_bar" target="_blank" class="flex-1 py-3 flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest font-bold text-pink-500">
-            <i data-lucide="instagram" class="w-3"></i> @cheers_o_bar
-        </a>
-        <button onclick="filterByType('Cozinha')" class="flex-1 py-3 flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest font-bold">
-            <i data-lucide="utensils" class="w-3"></i> Cozinha
-        </button>
-    </div>
-
-    <!-- Navegação de Categorias -->
-    <nav class="cat-bar flex overflow-x-auto px-4" id="categoryNav">
-        <!-- JS injetará aqui -->
-    </nav>
-
-    <!-- Lista de Itens -->
-    <main id="menuList" class="pb-20">
-        <!-- JS injetará aqui -->
-    </main>
-
-    <!-- Modal -->
-    <div id="modal" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/50 p-2 rounded-full z-10"><i data-lucide="x"></i></button>
-            <div id="modalBody"></div>
+    <main class="app">
+      <section class="hero">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="hero-badge"><i data-lucide="flame"></i>Mais intuitivo</span>
+            <h2 class="serif">Explora a carta com pesquisa, filtros e detalhe instantâneo.</h2>
+            <p>Produtos escolhidos a partir do teu relatório e organizados para vender melhor em telemóvel.</p>
+          </div>
         </div>
+      </section>
+
+      <section class="controls">
+        <div class="search-box">
+          <i data-lucide="search"></i>
+          <input id="searchInput" type="text" placeholder="Pesquisar produto, categoria ou descrição..." />
+          <button id="clearSearch" class="icon-btn" aria-label="Limpar pesquisa"><i data-lucide="x"></i></button>
+        </div>
+        <div class="chip-row" id="quickFilters"></div>
+        <div class="chip-row" id="categoryNav"></div>
+      </section>
+
+      <section class="stats-row">
+        <div class="stat-card">
+          <span class="stat-label">Itens na carta</span>
+          <strong id="menuCount">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Top destaque</span>
+          <strong>Fino</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Snack forte</span>
+          <strong>Tosta Mista</strong>
+        </div>
+      </section>
+
+      <section class="section-head">
+        <div>
+          <h3 class="serif">Carta</h3>
+          <p id="sectionText">Organizada para mobile e otimizada para toque.</p>
+        </div>
+        <div class="meta-pill" id="resultsMeta">0 itens</div>
+      </section>
+
+      <section id="highlights" class="highlights"></section>
+      <section id="menuGrid" class="menu-grid"></section>
+    </main>
+  </div>
+
+  <div id="overlay" class="overlay" onclick="closeSheet()"></div>
+
+  <aside id="sheet" class="sheet" aria-hidden="true">
+    <div class="sheet-grab"></div>
+    <button class="sheet-close" onclick="closeSheet()"><i data-lucide="x"></i></button>
+    <div class="sheet-media"><img id="sheetImg" src="" alt=""></div>
+    <div class="sheet-content">
+      <p class="sheet-kicker" id="sheetCategory"></p>
+      <h4 id="sheetTitle" class="sheet-title serif"></h4>
+      <p id="sheetDesc" class="sheet-desc"></p>
+      <div class="sheet-tags" id="sheetTags"></div>
+      <div class="sheet-row">
+        <div class="sheet-price" id="sheetPrice"></div>
+        <div class="sheet-note">Cheers O Bar</div>
+      </div>
     </div>
+  </aside>
 
-    <script>
-        // Dados extraídos do seu CSV (vendas > 2)
-        const menuData = {
-            "Packs": [
-                { name: "Régua Sagres", price: "6.50", desc: "A clássica régua para partilhar.", img: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=500" },
-                { name: "Pack 6 Gins Maracujá", price: "35.00", desc: "Ideal para grupos.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" },
-                { name: "Régua Heineken", price: "7.50", desc: "Frescura premium.", img: "https://images.unsplash.com/photo-1618885472179-5e474019f2a9?w=500" },
-                { name: "Pack 6 Shots da Casa", price: "10.00", desc: "Vodka e puré de fruta." }
-            ],
-            "Cocktails": [
-                { name: "Gin Lima Maracujá", price: "7.00", desc: "O nosso Bestseller.", popular: true, img: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500" },
-                { name: "Moscow Mule", price: "8.00", desc: "Com espuma de gengibre caseira.", img: "https://images.unsplash.com/photo-1513415277900-a62401e19be4?w=500" },
-                { name: "Mojito", price: "7.00", desc: "Rum, hortelã e lima.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500" },
-                { name: "Pornstar Martini", price: "7.00", desc: "Vodka e maracujá.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=500" },
-                { name: "Maçã Dourada", price: "7.00", desc: "Jack Daniel's Apple & Somersby." }
-            ],
-            "Cozinha": [
-                { name: "Tosta Mista", price: "4.50", desc: "Pão artesanal tostado.", popular: true, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500" },
-                { name: "Batatas Grandes", price: "3.50", desc: "Porção generosa.", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
-                { name: "4 Mini Pizzas", price: "5.00", desc: "O snack ideal.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Nuggets", price: "5.00", desc: "7 unidades crocantes.", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=500" }
-            ],
-            "Bar & Cafetaria": [
-                { name: "Fino Sagres", price: "1.50", desc: "Draft Beer." },
-                { name: "Heineken 50cl", price: "3.50", desc: "Pressão gelada." },
-                { name: "Café", price: "0.80", desc: "Blend premium." },
-                { name: "Pedras Sabores", price: "1.80", desc: "Limão ou Frutos Vermelhos." },
-                { name: "Coca-Cola", price: "1.80", desc: "33cl." },
-                { name: "Adamus Gin", price: "10.00", desc: "Premium Portuguese Gin." }
-            ]
-        };
-
-        const nav = document.getElementById('categoryNav');
-        const list = document.getElementById('menuList');
-
-        window.onload = () => {
-            lucide.createIcons();
-            renderCategories();
-            showCategory("Cocktails");
-        };
-
-        function renderCategories() {
-            nav.innerHTML = Object.keys(menuData).map(cat => `
-                <button onclick="showCategory('${cat}')" class="nav-btn py-4 px-4 text-[11px] uppercase tracking-[0.2em] whitespace-nowrap opacity-40 font-semibold transition-all">
-                    ${cat}
-                </button>
-            `).join('');
-        }
-
-        function showCategory(cat) {
-            // Update Nav UI
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active-cat');
-                if(btn.innerText === cat.toUpperCase()) btn.classList.add('active-cat');
-            });
-
-            // Update List UI
-            const items = menuData[cat];
-            list.innerHTML = items.map((item, idx) => `
-                <div class="menu-item" onclick="openModal('${cat}', ${idx})">
-                    <img src="${item.img || 'https://via.placeholder.com/150/111/c5a059?text=Cheers'}" class="thumb" onerror="this.src='https://via.placeholder.com/150/111/c5a059?text=Cheers'">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-baseline">
-                            <h4 class="font-semibold text-sm">${item.name} ${item.popular ? '⭐' : ''}</h4>
-                            <span class="gold-text font-bold text-sm">${item.price}€</span>
-                        </div>
-                        <p class="text-[10px] opacity-40 mt-1 leading-tight">${item.desc || 'Consulte os nossos colaboradores.'}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            gsap.from(".menu-item", { opacity: 0, x: -10, stagger: 0.05, duration: 0.3 });
-        }
-
-        function filterByType(type) {
-            showCategory(type);
-        }
-
-        function openModal(cat, idx) {
-            const item = menuData[cat][idx];
-            const modalBody = document.getElementById('modalBody');
-            modalBody.innerHTML = `
-                <img src="${item.img || 'https://via.placeholder.com/400/111/c5a059?text=Cheers'}" class="w-full h-64 object-cover">
-                <div class="p-6">
-                    <h2 class="serif text-2xl mb-2 gold-text">${item.name}</h2>
-                    <p class="text-xs opacity-60 mb-6 leading-relaxed">${item.desc || 'Uma experiência única no Cheers Bar.'}</p>
-                    <div class="flex justify-between items-center pt-4 border-t border-white/5">
-                        <span class="text-xl font-bold">${item.price}€</span>
-                        <span class="text-[9px] uppercase tracking-widest opacity-30">Cheers O Bar</span>
-                    </div>
-                </div>
-            `;
-            document.getElementById('modal').style.display = "flex";
-            gsap.from(".modal-content", { scale: 0.9, opacity: 0, duration: 0.3 });
-            lucide.createIcons();
-        }
-
-        function closeModal() {
-            gsap.to(".modal-content", { scale: 0.9, opacity: 0, duration: 0.2, onComplete: () => {
-                document.getElementById('modal').style.display = "none";
-            }});
-        }
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
